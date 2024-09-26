@@ -1,0 +1,32 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+  cloud:
+    gateway:
+      routes:
+        - id: authentication-service
+          uri: http://${HOST_NAME:localhost}:8081
+          predicates:
+            - Path=/auth/**, /v3/api-docs/authentication-service
+          filters:
+            - RewritePath=/auth/(?<segment>.*), /$\{segment}
+            - ApiRequestFilter
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    config-url: /v3/api-docs/swagger-config
+    urls:
+      - url: /v3/api-docs
+        name: API Gateway
+      - url: /v3/api-docs/authentication-service
+        name: Authentication Service
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    reactor.netty.http.client: DEBUG
