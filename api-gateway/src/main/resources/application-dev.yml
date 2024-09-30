@@ -26,6 +26,10 @@ springdoc:
       - url: /v3/api-docs/authentication-service
         name: Authentication Service
 
+redis:
+  host: localhost
+  port: 6379
+
 logging:
   level:
     org.springframework.cloud.gateway: DEBUG
